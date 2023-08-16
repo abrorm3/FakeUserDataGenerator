@@ -28,6 +28,8 @@ export class UserDataGeneratorComponent implements OnInit {
     this.userService.generateUserData(this.seed, this.selectedRegion, this.currentPage).subscribe({
       next: (userData) => {
         this.users = userData;
+        console.log(this.selectedRegion);
+
       },
       error: (error) => {
         console.error('Error fetching user data:', error);
