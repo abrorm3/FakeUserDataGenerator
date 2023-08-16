@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-// import {faker, fakerRU, fakerKA_GE, fakerJA} from "@faker-js/faker";
+import {faker, fakerRU, fakerKA_GE, fakerJA} from "@faker-js/faker";
 
 
 @Injectable({
