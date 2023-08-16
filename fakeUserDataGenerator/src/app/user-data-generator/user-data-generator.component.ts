@@ -27,15 +27,55 @@ export class UserDataGeneratorComponent implements OnInit {
   generateData() {
     this.userService.generateUserData(this.seed, this.selectedRegion, this.currentPage).subscribe({
       next: (userData) => {
-        this.users = userData;
-        console.log(this.selectedRegion);
-
+        const userDataWithErrors = this.applyErrors(userData, this.errorAmount);
+        this.users = userDataWithErrors;
       },
       error: (error) => {
         console.error('Error fetching user data:', error);
       }
     });
   }
+  applyErrors(userData: any[], errorAmount: number): any[] {
+    const userDataWithErrors: any[] = [];
+
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+    for (const user of userData) {
+      const userWithErrors = { ...user };
+      const numErrors = Math.floor(errorAmount);
+
+      for (let i = 0; i < numErrors; i++) {
+        const randomErrorType = Math.floor(Math.random() * 3);
+
+        if (randomErrorType === 0) {
+          // Delete character in random position
+          const position = Math.floor(Math.random() * userWithErrors.name.length);
+          userWithErrors.name =
+            userWithErrors.name.slice(0, position) +
+            userWithErrors.name.slice(position + 1);
+        } else if (randomErrorType === 1) {
+          // Add random character in random position
+          const position = Math.floor(Math.random() * userWithErrors.name.length);
+          const randomChar = alphabet[Math.floor(Math.random() * alphabet.length)];
+          userWithErrors.name =
+            userWithErrors.name.slice(0, position) + randomChar + userWithErrors.name.slice(position);
+        } else if (randomErrorType === 2) {
+          // Swap near characters
+          const position = Math.floor(Math.random() * (userWithErrors.name.length - 1));
+          const charArray = userWithErrors.name.split('');
+          const temp = charArray[position];
+          charArray[position] = charArray[position + 1];
+          charArray[position + 1] = temp;
+          userWithErrors.name = charArray.join('');
+        }
+      }
+
+      userDataWithErrors.push(userWithErrors);
+    }
+
+    return userDataWithErrors;
+  }
+
 
 
   generateRandomSeed() {

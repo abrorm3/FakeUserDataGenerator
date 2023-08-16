@@ -21,6 +21,7 @@
         min="0"
         max="10"
         [(ngModel)]="errorAmount"
+        (ngModelChange)="generateData()"
       />
       <input
         type="number"
@@ -28,7 +29,7 @@
         min="0"
         max="10"
         [ngModel]="errorAmount"
-        (ngModelChange)="errorAmount = $event"
+        (ngModelChange)="errorAmount = $event;generateData();"
       />
     </div>
 

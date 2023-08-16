@@ -21,7 +21,6 @@ export function generateUserData(
   const userData: User[] = [];
 
   let langModule: any;
-  console.log(lang + ' LANGGGG');
 
   if (lang === 'RU') {
     fakerRU.seed(seed);
