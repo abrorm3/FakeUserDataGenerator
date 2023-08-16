@@ -25,7 +25,7 @@ export class UserService {
   //   }
 
   //   return userData;
-  const url = `http://localhost:3000/generateUserData?lang=${lang}`;
+  const url = `https://fake-user-data-generator-backend.onrender.com/generateUserData?lang=${lang}`;
     return this.http.get<any[]>(url);
   }
 }
