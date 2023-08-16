@@ -1,0 +1,75 @@
+<div class="flex flex-col items-center mt-10" >
+  <h1 class="text-2xl mb-4">Fake User Data Generator</h1>
+
+  <div class="w-11/12 flex flex-col md:flex-row justify-between mb-4">
+    <div class="mb-4 md:mb-0">
+      <label for="region" class="mr-2">Select Region:</label>
+      <select id="region" class="p-1 border rounded" [(ngModel)]="selectedRegion" (ngModelChange)="generateData()">
+        <option value="usa">USA</option>
+        <option value="RU">Russia</option>
+        <option value="KA_GE">Georgia</option>
+        <option value="JA">Japan</option>
+      </select>
+    </div>
+
+    <div class="mb-4 md:mb-0">
+      <label for="errorAmount" class="mr-2">Error Amount:</label>
+      <input
+        type="range"
+        id="errorAmount"
+        class="w-1/2"
+        min="0"
+        max="10"
+        [(ngModel)]="errorAmount"
+      />
+      <input
+        type="number"
+        class="p-1 border rounded"
+        min="0"
+        max="10"
+        [ngModel]="errorAmount"
+        (ngModelChange)="errorAmount = $event"
+      />
+    </div>
+
+    <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="generateData()">
+      Generate Random Data
+    </button>
+
+    <div class="mb-4 md:mb-0 mt-4">
+      <label for="seed" class="mr-2">Seed Value:</label>
+      <input
+        type="number"
+        id="seed"
+        class="p-1 border rounded"
+        [(ngModel)]="seed"
+      />
+      <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="generateRandomSeed()">
+        Random
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-8 w-11/12">
+    <table class="w-full border-collapse border border-gray-300">
+      <thead>
+        <tr>
+          <th class="p-2">Index</th>
+          <th class="p-2">Id</th>
+          <th class="p-2">Name</th>
+          <th class="p-2">Address</th>
+          <th class="p-2">Phone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index" class="{{ i % 2 === 0 ? 'bg-gray-100' : '' }}">
+          <td class="p-2">{{ i + 1 }}</td>
+          <td class="p-2">{{ user.id}}</td>
+          <td class="p-2">{{ user.name }}</td>
+          <td class="p-2">{{ user.address }}</td>
+          <td class="p-2">{{ user.phone }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
