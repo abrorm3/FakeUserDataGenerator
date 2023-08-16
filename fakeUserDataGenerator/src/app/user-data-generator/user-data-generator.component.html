@@ -50,8 +50,9 @@
     </div>
   </div>
 
-  <div class="mt-8 w-11/12 overflow-y-auto" (scroll)="onScroll($event.target)">
-    <table class="w-full border-collapse border border-gray-300">
+  <div class="mt-8 w-11/12 overflow-y-auto">
+    <cdk-virtual-scroll-viewport #virtualScrollElement itemSize="20" class="h-400 virtual-scroll" (scrolledIndexChange)="onVirtualScrollScrolled($event)">
+    <table class="w-full border-collapse border border-gray-300 table-cdk">
       <thead>
         <tr>
           <th class="p-2">Index</th>
@@ -62,7 +63,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users; let i = index" class="{{ i % 2 === 0 ? 'bg-gray-100' : '' }}">
+
+        <tr *cdkVirtualFor="let user of users; let i = index" class="{{ i % 2 === 0 ? 'bg-gray-100' : '' }} virtualItem">
           <td class="p-2">{{ i + 1 }}</td>
           <td class="p-2">{{ user.id}}</td>
           <td class="p-2">{{ user.name }}</td>
@@ -71,5 +73,6 @@
         </tr>
       </tbody>
     </table>
+  </cdk-virtual-scroll-viewport>
   </div>
 </div>

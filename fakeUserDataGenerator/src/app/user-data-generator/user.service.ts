@@ -1,16 +1,15 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { faker, fakerRU, fakerKA_GE, fakerJA } from '@faker-js/faker';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs'; // Import `of` to create an observable
+import { generateUserData } from './data-generator'; // Import the generator function
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'http://localhost:3000';
-  constructor(private http: HttpClient) {}
-  generateUserData(seed: number, lang: string):Observable<any[]> {
-    const url = `${this.baseUrl}/generateUserData?seed=${seed}&lang=${lang}`;
-    return this.http.get<any[]>(url);
+  
+  generateUserData(seed: number, lang: string, count: number): Observable<any[]> {
+    const userData = generateUserData(seed, lang, count);
+    return of(userData);
   }
 }
+

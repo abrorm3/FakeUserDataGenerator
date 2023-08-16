@@ -1,0 +1,11 @@
+.virtual-scroll{
+  height: 80vh;
+  width: 100%;
+  border: 1px solid black;
+}
+.virtualItem{
+  height: 50px;
+}
+.table-cdk{
+  height: 50px;
+}

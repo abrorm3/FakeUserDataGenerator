@@ -1,5 +1,7 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserService } from './user.service';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+
 
 @Component({
   selector: 'app-user-data-generator',
@@ -11,31 +13,28 @@ export class UserDataGeneratorComponent implements OnInit {
   users: any[] = [];
   seed: number = 42;
   selectedRegion: string = 'usa';
-  atBottom = false;
+  currentPage = 20;
+
 
   constructor(private userService: UserService) {}
+
+  @ViewChild('virtualScrollElement') virtualScrollElement!: CdkVirtualScrollViewport;
 
   ngOnInit(): void {
     this.generateData();
   }
-  onScroll(elem: any) {
-    console.log('Scroll event triggered');
-    if ((elem.offsetHeight + elem.scrollTop) >= elem.scrollHeight) {
-      console.log("It's Lit");
-    }
-  }
 
   generateData() {
-    this.userService.generateUserData(this.seed,this.selectedRegion).subscribe(
-      (userData) => {
+    this.userService.generateUserData(this.seed, this.selectedRegion, this.currentPage).subscribe({
+      next: (userData) => {
         this.users = userData;
-        console.log(this.users);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching user data:', error);
       }
-    );
+    });
   }
+
 
   generateRandomSeed() {
     this.seed = Math.floor(Math.random() * 1000000); // Generate a random seed
@@ -56,16 +55,20 @@ export class UserDataGeneratorComponent implements OnInit {
     // You can use libraries like crypto-js for hashing if needed
     return value; // Replace this with your actual hash
   }
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    //In chrome and some browser scroll is given to body tag
-    let pos =
-      (document.documentElement.scrollTop || document.body.scrollTop) +
-      document.documentElement.offsetHeight;
-    let max = document.documentElement.scrollHeight;
-    // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
-    if (pos == max) {
-      //Do your action here
+  onVirtualScrollScrolled(index: number): void {
+
+    const endBuffer = 12; // Number of records to load before reaching the end
+    const totalRecords = this.users.length;
+
+    // Calculate the index that would trigger the data fetching
+    const triggerIndex = totalRecords - endBuffer;
+
+    if (index >= triggerIndex && index < totalRecords) {
+      // Fetch more data and append it to the users array
+      console.log('Fetching additional 20 records');
+      this.currentPage = this.currentPage+20;
+      this.generateData()
     }
   }
+
 }
