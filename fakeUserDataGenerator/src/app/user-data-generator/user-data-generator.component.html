@@ -32,10 +32,6 @@
       />
     </div>
 
-    <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="generateData()">
-      Generate Random Data
-    </button>
-
     <div class="mb-4 md:mb-0 mt-4">
       <label for="seed" class="mr-2">Seed Value:</label>
       <input
@@ -43,6 +39,7 @@
         id="seed"
         class="p-1 border rounded"
         [(ngModel)]="seed"
+        (ngModelChange)="generateData()"
       />
       <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="generateRandomSeed()">
         Random

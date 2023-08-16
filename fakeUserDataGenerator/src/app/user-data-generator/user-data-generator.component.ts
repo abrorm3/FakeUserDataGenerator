@@ -40,6 +40,7 @@ export class UserDataGeneratorComponent implements OnInit {
 
   generateRandomSeed() {
     this.seed = Math.floor(Math.random() * 1000000); // Generate a random seed
+    this.generateData();
   }
   generateRandomIdentifier(name: string, seed: number): string {
     // Combine name and seed to generate a random identifier
