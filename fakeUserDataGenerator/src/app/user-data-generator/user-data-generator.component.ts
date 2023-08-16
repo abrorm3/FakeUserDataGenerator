@@ -18,12 +18,25 @@ export class UserDataGeneratorComponent implements OnInit {
   ngOnInit(): void {
     this.generateData();
   }
- 
+  onScroll(elem: any) {
+    console.log('Scroll event triggered');
+    if ((elem.offsetHeight + elem.scrollTop) >= elem.scrollHeight) {
+      console.log("It's Lit");
+    }
+  }
 
   generateData() {
-    this.users = this.userService.generateUserData(this.selectedRegion);
-    console.log(this.users);
+    this.userService.generateUserData(this.selectedRegion).subscribe(
+      (userData) => {
+        this.users = userData;
+        console.log(this.users);
+      },
+      (error) => {
+        console.error('Error fetching user data:', error);
+      }
+    );
   }
+
   generateRandomSeed() {
     this.seed = Math.floor(Math.random() * 1000000); // Generate a random seed
   }
