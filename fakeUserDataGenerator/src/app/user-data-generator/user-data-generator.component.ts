@@ -26,7 +26,7 @@ export class UserDataGeneratorComponent implements OnInit {
   }
 
   generateData() {
-    this.userService.generateUserData(this.selectedRegion).subscribe(
+    this.userService.generateUserData(this.seed,this.selectedRegion).subscribe(
       (userData) => {
         this.users = userData;
         console.log(this.users);

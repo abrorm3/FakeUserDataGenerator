@@ -1,7 +1,8 @@
-const { faker, fakerRU, fakerKA_GE, fakerJA } = require('@faker-js/faker');
+const { faker, fakerRU, fakerKA_GE, fakerJA } = require("@faker-js/faker");
 
-function generateUserData(lang) {
-  const langModule = lang === 'RU' ? fakerRU: lang === 'KA_GE' ? fakerKA_GE : lang === 'JA' ? fakerJA : faker;
+function generateUserData(seed, lang) {
+  faker.seed(seed);
+  const langModule = lang === "RU" ? fakerRU : lang === "KA_GE" ? fakerKA_GE : lang === "JA" ? fakerJA : faker;
 
   const userData = [];
 

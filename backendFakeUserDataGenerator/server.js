@@ -10,8 +10,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 app.get('/generateUserData', (req, res) => {
-  const lang = req.query.lang || 'en';
-  const userData = userService.generateUserData(lang);
+  const { seed, lang } = req.query;
+  const userData = userService.generateUserData(parseInt(seed), lang);
   res.json(userData);
 });
 
