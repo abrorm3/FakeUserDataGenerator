@@ -1,5 +1,4 @@
 import { faker, fakerRU, fakerKA_GE, fakerJA } from '@faker-js/faker';
-// import * as crypto from "crypto-js";
 import { enc, MD5 } from 'crypto-js';
 
 interface User {
