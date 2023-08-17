@@ -35,47 +35,60 @@ export class UserDataGeneratorComponent implements OnInit {
       }
     });
   }
-  applyErrors(userData: any[], errorAmount: number): any[] {
+
+  // start of error
+  applyErrors(userData: any[], errorProbability: number): any[] {
     const userDataWithErrors: any[] = [];
-
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
     for (const user of userData) {
       const userWithErrors = { ...user };
-      const numErrors = Math.floor(errorAmount);
-
-      for (let i = 0; i < numErrors; i++) {
-        const randomErrorType = Math.floor(Math.random() * 3);
-
-        if (randomErrorType === 0) {
-          // Delete character in random position
-          const position = Math.floor(Math.random() * userWithErrors.name.length);
-          userWithErrors.name =
-            userWithErrors.name.slice(0, position) +
-            userWithErrors.name.slice(position + 1);
-        } else if (randomErrorType === 1) {
-          // Add random character in random position
-          const position = Math.floor(Math.random() * userWithErrors.name.length);
-          const randomChar = alphabet[Math.floor(Math.random() * alphabet.length)];
-          userWithErrors.name =
-            userWithErrors.name.slice(0, position) + randomChar + userWithErrors.name.slice(position);
-        } else if (randomErrorType === 2) {
-          // Swap near characters
-          const position = Math.floor(Math.random() * (userWithErrors.name.length - 1));
-          const charArray = userWithErrors.name.split('');
-          const temp = charArray[position];
-          charArray[position] = charArray[position + 1];
-          charArray[position + 1] = temp;
-          userWithErrors.name = charArray.join('');
-        }
+      if (Math.random() < errorProbability) {
+        userWithErrors.name = this.applyRandomError(userWithErrors.name);
       }
-
       userDataWithErrors.push(userWithErrors);
     }
-
     return userDataWithErrors;
   }
 
+  applyRandomError(name: string): string {
+    const errorTypes = ['delete', 'add', 'swap'];
+    const randomErrorType = errorTypes[Math.floor(Math.random() * errorTypes.length)];
+
+    switch (randomErrorType) {
+      case 'delete':
+        return this.applyDeleteError(name);
+      case 'add':
+        return this.applyAddError(name);
+      case 'swap':
+        return this.applySwapError(name);
+      default:
+        return name;
+    }
+  }
+
+  applyDeleteError(text: string): string {
+    const randomIndex = Math.floor(Math.random() * text.length);
+    return text.slice(0, randomIndex) + text.slice(randomIndex + 1);
+  }
+
+  applyAddError(text: string): string {
+    const randomIndex = Math.floor(Math.random() * text.length);
+    const randomCharacter = this.getRandomCharacter();
+    return text.slice(0, randomIndex) + randomCharacter + text.slice(randomIndex);
+  }
+
+  applySwapError(text: string): string {
+    const charArray = text.split('');
+    const randomIndex = Math.floor(Math.random() * (charArray.length - 1));
+    [charArray[randomIndex], charArray[randomIndex + 1]] = [charArray[randomIndex + 1], charArray[randomIndex]];
+    return charArray.join('');
+  }
+
+  getRandomCharacter(): string {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const randomIndex = Math.floor(Math.random() * alphabet.length);
+    return alphabet.charAt(randomIndex);
+  }
+  // end of error
 
 
   generateRandomSeed() {
