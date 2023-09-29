@@ -1,1 +1,1 @@
-## FakeUserDataGenerator deployment: https://fake-user-data-generator-qmvrpd68o-abrorm3.vercel.app/
+[FakeUserDataGenerator Deployment] (https://fake-user-data-generator.vercel.app/)https://fake-user-data-generator.vercel.app/)
